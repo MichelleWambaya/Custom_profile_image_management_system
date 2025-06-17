@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        .gallery img {
+            width: 100px; /* Set size as needed */
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Image Gallery</h1>
+<div class="gallery" id="gallery"></div>
+
+<script>
+    const images = [
+        'image1.jpeg', 'image2.jpeg', 'image3.jpeg', 'image4.jpeg', 'image5.jpeg',
+        'image6.jpeg'
+    ]; // Add your image paths here
+
+    function displayImages() {
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = ''; // Clear previous images
+
+        images.forEach(image => {
+            const imgElement = document.createElement('img');
+            imgElement.src = image;
+            imgElement.alt = "Image";
+            
+            imgElement.onclick = function() {
+                localStorage.setItem('selectedImage', image); // Store selected image in localStorage
+                window.location.href = 'index.html'; // Redirect to profile page
+            };
+
+            gallery.appendChild(imgElement);
+        });
+    }
+
+    // Initial display
+    displayImages();
+</script>
+
+</body>
+</html>

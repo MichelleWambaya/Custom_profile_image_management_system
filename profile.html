@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Picture Management</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h3>Profile Picture Management</h3>
+        <div class="thumbnail-placeholder">
+            <img src="sticker.png" alt="Placeholder Icon" id="thumbnail-icon"> <!-- Placeholder icon -->
+        </div>
+        <form id="image-form">
+            <input type="file" id="image-upload" accept="image/*" onchange="previewImage(event)">
+            <button type="button" onclick="uploadImage()">Upload</button>
+            <button type="button" onclick="changeImage()">Change</button>
+            <button type="button" onclick="deleteImage()">Delete</button>
+        </form>
+
+
+
+
+
+        <script>
+            window.onload = function() {
+                const selectedImage = localStorage.getItem('selectedImage');
+                if (selectedImage) {
+                    document.getElementById('thumbnail-icon').src = selectedImage; // Set thumbnail icon to selected image
+                }
+            };
+
+            function previewImage(event) {
+                const thumbnailIcon = document.getElementById('thumbnail-icon');
+                thumbnailIcon.src = URL.createObjectURL(event.target.files[0]);
+            }
+
+            function uploadImage() {
+                window.location.href = 'profile.html';
+                const input = document.getElementById('image-upload');
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        document.getElementById('thumbnail-icon').src = e.target.result; // Set thumbnail icon to uploaded image
+                        localStorage.setItem('selectedImage', e.target.result); // Store uploaded image in localStorage
+                    }
+                    
+                    reader.readAsDataURL(input.files[0]); // Read file as Data URL
+                } else {
+                    alert("Please select an image file first.");
+                }
+            }
+
+            function changeImage() {
+                window.location.href = 'profile.html';
+                uploadImage(); // Reuse upload logic for changing images
+            }
+
+            function deleteImage() {
+                document.getElementById('thumbnail-icon').src = 'image7.jpeg'; // Reset to placeholder
+                localStorage.removeItem('selectedImage'); // Clear stored image
+            }
+        </script>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                height: 100vh;
+                margin: 0;
+            }
+            
+            .container {
+                text-align: center;
+            }
+
+            .thumbnail-placeholder {
+                margin: 20px 0;
+            }
+
+            #thumbnail-icon {
+                width: 150px; 
+                height: 150px; 
+                border-radius: 50%;
+            }
+        </style>
+    </div>
+
+</body>
+</html>
