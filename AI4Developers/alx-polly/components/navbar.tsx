@@ -72,6 +72,7 @@ function initialsOf(nameOrEmail: string): string {
 
 function UserMenu({ displayName, onSignOut }: { displayName: string; onSignOut: () => void }) {
   const [open, setOpen] = React.useState(false);
+  const { user } = useAuth();
   React.useEffect(() => {
     function onDocClick(e: MouseEvent) {
       const target = e.target as HTMLElement;
@@ -85,9 +86,14 @@ function UserMenu({ displayName, onSignOut }: { displayName: string; onSignOut: 
       <button
         aria-label="User menu"
         onClick={() => setOpen((v) => !v)}
-        className="h-8 w-8 rounded-full bg-foreground text-background text-xs font-semibold grid place-items-center"
+        className="h-8 w-8 rounded-full overflow-hidden bg-foreground text-background text-xs font-semibold grid place-items-center"
       >
-        {initialsOf(displayName)}
+        {user?.user_metadata?.avatar_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={user.user_metadata.avatar_url as string} alt="Avatar" className="h-full w-full object-cover" />
+        ) : (
+          initialsOf(displayName)
+        )}
       </button>
       {open && (
         <div className="absolute right-0 mt-2 w-44 rounded-md border border-black/[.08] dark:border-white/[.145] bg-background shadow-sm p-1 z-50">
